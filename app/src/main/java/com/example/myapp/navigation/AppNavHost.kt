@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.myapp.ui.theme.screens.client.AddClientScreen
+import com.example.myapp.ui.theme.screens.client.ViewClients
 import com.example.myapp.ui.theme.screens.dashboard.DashBoard
 import com.example.myapp.ui.theme.screens.login.LoginScreen
 import com.example.myapp.ui.theme.screens.signup.SignupScreen
@@ -19,5 +20,6 @@ fun AppNavHost(navController: NavHostController= rememberNavController(),
         composable(ROUTE_LOGIN){ LoginScreen(navController) }
         composable(ROUTE_HOME){ DashBoard(navController) }
         composable(ROUTE_ADD_CLIENT){ AddClientScreen(navController) }
+        composable(ROUTE_VIEW_CLIENT){ ViewClients(navController) }
     }
 }

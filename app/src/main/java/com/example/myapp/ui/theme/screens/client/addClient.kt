@@ -3,6 +3,7 @@ package com.example.myapp.ui.theme.screens.client
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import android.net.Uri
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -43,6 +44,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -52,6 +54,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberImagePainter
 import com.example.myapp.R
+import com.example.myapp.data.ClientViewModel
 
 
 @Composable
@@ -68,6 +71,8 @@ fun AddClientScreen(navController: NavController){
             uri: Uri? ->
         uri?.let { imageUri.value = it}
     }
+    val context = LocalContext.current
+
     var firstname by remember {
         mutableStateOf(value = "")
     }
@@ -128,7 +133,17 @@ fun AddClientScreen(navController: NavController){
                 Button(onClick = {}) {
                     Text(text = "BACK")
                 }
-                Button(onClick = {}) {
+                Button(onClick = {
+                    val clientRepository = ClientViewModel()
+                    clientRepository.saveClient(
+                        firstname = firstname,
+                        lastname = lastname,
+                        gender = gender,
+                        age = age,
+                        navController = navController,
+                        context = context
+                    )
+                }) {
                     Text(text = "SAVE")
                 }
             }
@@ -161,7 +176,7 @@ fun AddClientScreen(navController: NavController){
                     .align(Alignment.CenterHorizontally))
 
             OutlinedTextField(value = lastname,
-                onValueChange = { newLastname -> firstname = newLastname },
+                onValueChange = { newLastname -> lastname= newLastname },
                 placeholder = { Text(text = "Enter Last Name") },
                 label = { Text(text = "Enter Last Name") },
                 modifier = Modifier
@@ -176,7 +191,7 @@ fun AddClientScreen(navController: NavController){
                     .wrapContentWidth()
                     .align(Alignment.CenterHorizontally))
             OutlinedTextField(value = age,
-                onValueChange = { newAger -> age = newAger },
+                onValueChange = { newAge -> age = newAge },
                 placeholder = { Text(text = "Enter age") },
                 label = { Text(text = "Enter age") },
                 modifier = Modifier

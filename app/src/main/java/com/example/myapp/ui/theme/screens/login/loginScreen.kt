@@ -13,9 +13,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -44,6 +46,8 @@ import com.example.myapp.navigation.ROUTE_REGISTER
 fun LoginScreen(navController: NavController){
     val context = LocalContext.current
     val authViewModel: AuthViewModel = viewModel()
+    val isLoading by authViewModel.isLoading.collectAsState()
+
     var email by remember {
         mutableStateOf(value = "")
     }
@@ -104,27 +108,34 @@ fun LoginScreen(navController: NavController){
         androidx.compose.material3.Button(onClick = {
             authViewModel.login(email,password,navController,context)
         },
+            enabled = !isLoading,
             colors = ButtonDefaults.buttonColors(Color.Black)) {
-            Text(
-                modifier = Modifier,
-                color = Color.White,
-                text = "LOGIN HERE"
-            )
+            if (isLoading) {
+                CircularProgressIndicator(color = Color.Black, strokeWidth = 4.dp)
+            } else {
+                Text(
+                    modifier = Modifier,
+                    color = Color.White,
+                    text = "LOGIN HERE"
+                )
+            }
         }
-        Spacer(modifier = Modifier.height(10.dp))
-        ClickableText(
-            text = AnnotatedString("Don't have an account? Register here"),
-            onClick = {
-                navController.navigate(ROUTE_REGISTER)
-            },
-            style = TextStyle(
-                color = Color.Blue,
-                fontSize = 16.sp,
-                textAlign = TextAlign.Center
-            )
-        )
+                Spacer(modifier = Modifier.height(10.dp))
+                ClickableText(
+                    text = AnnotatedString("Don't have an account? Register here"),
+                    onClick = {
+                        navController.navigate(ROUTE_REGISTER)
+                    },
+                    style = TextStyle(
+                        color = Color.Blue,
+                        fontSize = 16.sp,
+                        textAlign = TextAlign.Center
+                    )
+                )
+            }
     }
-}
+
+
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
