@@ -1,7 +1,9 @@
 package com.example.myapp.data
 
+import android.app.AlertDialog
 import android.content.Context
 import android.widget.Toast
+import androidx.compose.material3.AlertDialog
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.LiveData
@@ -81,6 +83,24 @@ class ClientViewModel(): ViewModel() {
                 showToast("Record update failed", context)
             }
         }
+    }
+    fun deleteClient(context: Context, id: String, navController: NavController){
+        AlertDialog.Builder(context)
+            .setTitle("Delete the Client")
+            .setMessage("Are you sure you want to delete this Client?")
+            .setPositiveButton("Yes"){ _, _ ->
+                val databaseReference = FirebaseDatabase.getInstance().getReference("Client/$id")
+                databaseReference.removeValue().addOnCompleteListener{ task ->
+                    if (task.isSuccessful){
+                        showToast("Client deleted successfully", context)
+                    }else{
+                        showToast("Client has not been deleted", context)
+                    }
+                }
+            }.setNegativeButton("No"){ dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
     }
 
 }

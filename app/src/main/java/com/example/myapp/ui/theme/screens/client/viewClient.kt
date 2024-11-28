@@ -91,6 +91,7 @@ fun ViewClients(navController: NavHostController){
 @Composable
 fun ClientItem(firstname: String, lastname: String, gender: String,
                age: String, id: String, navController: NavHostController, clientRepository: ClientViewModel){
+    val context = LocalContext.current
     Column(modifier = Modifier.fillMaxWidth()) {
         Card(modifier = Modifier
             .padding(10.dp)
@@ -108,7 +109,9 @@ fun ClientItem(firstname: String, lastname: String, gender: String,
                             .height(150.dp)
                             .padding(5.dp))
                     Row(horizontalArrangement = Arrangement.SpaceBetween) {
-                        Button(onClick ={},
+                        Button(onClick ={
+                            clientRepository.deleteClient(context, id, navController)
+                        },
                             shape = RoundedCornerShape(7.dp),
                             colors = ButtonDefaults.buttonColors(Color.Red)
                         ) {

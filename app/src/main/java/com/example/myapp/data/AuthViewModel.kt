@@ -89,6 +89,12 @@ class AuthViewModel : ViewModel(){
             }
             }
     }
+    fun logout(navController: NavController, context: Context){
+        FirebaseAuth.getInstance().signOut()
+        showToast("Logged out successfully", context)
+        navController.navigate(ROUTE_LOGIN)
+    }
+
 }
 
 

@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Person
@@ -29,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -37,12 +39,14 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.myapp.R
+import com.example.myapp.data.AuthViewModel
 import com.example.myapp.navigation.ROUTE_ADD_CLIENT
 import com.example.myapp.navigation.ROUTE_VIEW_CLIENT
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DashBoard(navController: NavController){
+    val context = LocalContext.current
     Box(){
         Image(
             painter = painterResource(id = R.drawable.logo4) ,
@@ -72,14 +76,19 @@ fun DashBoard(navController: NavController){
                 }
                 IconButton(onClick ={}) {
                     Icon(imageVector = Icons.Filled.Search,
-                        contentDescription = "My Profile")
+                        contentDescription = "Search Here")
                 }
                 IconButton(onClick = {}) {
                     Icon(imageVector = Icons.Filled.Menu,
-                        contentDescription = "My Profile")
+                        contentDescription = "Menu")
                 }
-
-
+                IconButton(onClick = {
+                    val authRepository = AuthViewModel()
+                    authRepository.logout(navController, context)
+                }) {
+                    Icon(imageVector = Icons.Filled.ExitToApp,
+                        contentDescription = "LogOut")
+                }
             })
         Row (modifier = Modifier.wrapContentWidth()) {
             Card(
