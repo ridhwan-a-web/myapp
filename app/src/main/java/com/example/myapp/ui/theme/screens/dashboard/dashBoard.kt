@@ -38,6 +38,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.myapp.R
 import com.example.myapp.navigation.ROUTE_ADD_CLIENT
+import com.example.myapp.navigation.ROUTE_VIEW_CLIENT
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -93,7 +94,7 @@ fun DashBoard(navController: NavController){
                 Box(modifier = Modifier.height(70.dp)) {
                     Image(
                         painter = painterResource(id = R.drawable.logo2),
-                        contentDescription = "New Client"
+                        contentDescription = "Add Client"
                     )
                     Box(
                         modifier = Modifier.matchParentSize()
@@ -112,7 +113,9 @@ fun DashBoard(navController: NavController){
                 }
             }
             Card(
-                modifier = Modifier.padding(10.dp),
+                modifier = Modifier.padding(10.dp).clickable{
+                    navController.navigate(ROUTE_VIEW_CLIENT)
+                },
                 shape = RoundedCornerShape(20.dp),
                 elevation = CardDefaults.cardElevation(10.dp)
             ) {
@@ -131,7 +134,7 @@ fun DashBoard(navController: NavController){
                             fontStyle = FontStyle.Normal,
                             fontWeight = FontWeight.Bold,
                             fontSize = 14.sp,
-                            text = "NEW CLIENT"
+                            text = "VIEW CLIENT"
                         )
                     }
 
